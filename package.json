@@ -8,6 +8,7 @@
   "devDependencies": {
     "@babel/cli": "^7.10.3",
     "@babel/core": "^7.10.3",
+    "@babel/polyfill": "^7.10.1",
     "@babel/preset-env": "^7.10.3",
     "babel-loader": "^8.1.0",
     "webpack": "^4.43.0",
@@ -16,5 +17,8 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --mode=development"
+  },
+  "dependencies": {
+    "@babel/plugin-transform-async-to-generator": "^7.10.1"
   }
 }
