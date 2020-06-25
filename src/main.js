@@ -1,117 +1,56 @@
-// --------------ex1---------------------
+class App {
+    constructor(){
+        this.repositories = [];
+        this.formElement = document.querySelector('#repo-form');
+        this.listElement = document.querySelector('#repo-list');
+        this.registerHandlers();
+    }
+    registerHandlers() {
+        this.formElement.onsubmit =  (event) =>  this.addRepository(event);
+        }
+    
+    addRepository(event){
+        // Evita o carregamento da página
+        event.preventDefault();
+        // Colocar repositório no array 'repositóries'
+        this.repositories.push({
+            name:'Rocketseat',
+            description:'Tire a sua ideia do papel e de vida à sua startup.',
+            avatar_url: 'https://avatars0.githubusercontent.com/u/28929274?v=4',
+            html_url: 'http://github.com/rocketseat',
+        });
+        
+        this.render();
+    }
+    render(){
+        //apagar todo o conteúdo
+        this.listElement.innerHTML = '';
+        //percorrer o array adicionando os elementos
+        this.repositories.forEach(repo => {
+            let imgElement = document.createElement('img');
+            imgElement.setAttribute('src', repo.avatar_url);
 
-//  const delay = () => new Promise((resolve) => {
-//      setTimeout(() => {resolve()}, 1000);
-//  });
+            let titleElement = document.createElement('strong');
+            titleElement.appendChild(document.createTextNode(repo.name));
 
-// function umPorSegundo(){
-//     delay().then(() => {
-//         console.log('1s');
-//         delay().then(() => {
-//             console.log('2s');
-//             delay().then(() => {
-//                 console.log('3s');
-//             });
-//         });
-//     });
-// }
-// umPorSegundo();
+            let descriptionElement = document.createElement('p');
+            descriptionElement.appendChild(document.createTextNode(repo.description));
 
-// let time = 0;
-// const delay = () => new Promise((res, rej) => {
-//     setTimeout(() => {
-//         time = time +1;
-//         res(time+'s');
-//     }, 1000);
-// });
+            let linkElement = document.createElement('a');
+            linkElement.setAttribute('href', repo.html_url);
+            linkElement.appendChild(document.createTextNode('Acessar'));
 
-// async function executaPromise() {
+            let listItemElement = document.createElement('li');
 
-//    console.log(await delay());
-//    console.log(await delay());
-//    console.log(await delay());
+            listItemElement.appendChild(imgElement);
+            listItemElement.appendChild(titleElement);
+            listItemElement.appendChild(descriptionElement);
+            listItemElement.appendChild(linkElement);
 
-// }
-// executaPromise();
+            this.listElement.appendChild(listItemElement);
+        });
 
-//--------------ex2----------------------------
+    }    
+}
 
-//import axios from 'axios'
-
-// function getUserFromGithub(user) {
-//     axios.get(`https://api.github.com/users/${user}`)
-//         .then(response => {
-//             console.log(response.data);
-//         })
-//         .catch(err => {
-//             console.log('Usuário não existe');
-//         })
-// }
-// getUserFromGithub('diego3g');
-// getUserFromGithub('diego3g124123');
-
-// async function getUserFromGithub(user) {
-//     try {
-//         const response = await axios.get(`https://api.github.com/users/${user}`);
-//         console.log(response.data);
-//     } catch (erro) {
-//         console.warn(erro);
-//         console.log('Usuário não existe')
-//     }
-// }
-// getUserFromGithub('diego3g');
-// getUserFromGithub('diegoadssada');
-
-// -----------------------ex3----------------------------------------
-
-// class Github {
-//     static getRepositories(repo) {
-//         axios.get(`https://api.github.com/users/${repo}`)
-//             .then(response => {
-//                 console.log(response.data.name);
-//                 console.log(response.data.bio);
-//             })
-//             .catch(err => {
-//                 console.log('Repositório não existe');
-//             })
-//     }
-// }
-// Github.getRepositories('rocketseat');
-
-// class Github {
-//     async getRepositories(repo) {
-//         try {
-//             const response = await axios.get(`https://api.github.com/users/${repo}`);
-//             console.log(reponse.data.name);
-//             console.log(response.data.bio);
-//         } catch (erro) {
-//             console.warn(erro);
-//             console.log('Repositório não existe');
-//         }
-//     }
-// }
-// Github.getRepositories('rocketseat');
-
-// ----------------------ex4--------------------------
-
-// const buscaUsuario = usuario => {
-//     axios.get(`https://api.github.com/users/${usuario}`)
-//     .then(response => {
-//     console.log(response.data);
-//     })
-//     .catch(err => {
-//     console.log('Usuário não existe');
-//     });
-//    }
-
-//    buscaUsuario('diego3g');
-
-// const buscaUsuario = async function(usuario){
-//     try {
-//     const response = await axios.get(`https://api.github.com/users/${usuario}`);
-//     console.log(response.data);
-//     } catch(erro){
-//         console.log('Usuário não encontrado');
-//     }
-// }
-// buscaUsuario('diego3g');
+new App();
