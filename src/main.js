@@ -1,30 +1,53 @@
+import axios from 'axios';
+
 class App {
-    constructor(){
+    constructor() {
         this.repositories = [];
         this.formElement = document.querySelector('#repo-form');
         this.listElement = document.querySelector('#repo-list');
+        this.inputElement = document.querySelector('input[name=repository]');
         this.registerHandlers();
     }
+
     registerHandlers() {
-        this.formElement.onsubmit =  (event) =>  this.addRepository(event);
-        }
-    
-    addRepository(event){
+        this.formElement.onsubmit = (event) => this.addRepository(event);
+    }
+
+    async addRepository(event) {
         // Evita o carregamento da página
         event.preventDefault();
-        // Colocar repositório no array 'repositóries'
-        this.repositories.push({
-            name:'Rocketseat',
-            description:'Tire a sua ideia do papel e de vida à sua startup.',
-            avatar_url: 'https://avatars0.githubusercontent.com/u/28929274?v=4',
-            html_url: 'http://github.com/rocketseat',
-        });
-        
-        this.render();
+
+        const repoInput = this.inputElement.value;
+
+        if (repoInput.lenght === 0)
+            return;
+
+        try {
+            const response = await axios.get(`https://api.github.com/users/${repoInput}`);
+
+            const { name, bio, html_url, avatar_url } = response.data;
+
+            console.log(response);
+
+            // Colocar repositório no array 'repositóries'
+            this.repositories.push({
+                name,
+                description: bio,
+                avatar_url,
+                html_url,
+            });
+
+            this.render();
+
+        } catch (erro) {
+            alert('O repositório não existe!');
+        }
     }
-    render(){
+    
+    render() {
         //apagar todo o conteúdo
         this.listElement.innerHTML = '';
+
         //percorrer o array adicionando os elementos
         this.repositories.forEach(repo => {
             let imgElement = document.createElement('img');
@@ -38,6 +61,7 @@ class App {
 
             let linkElement = document.createElement('a');
             linkElement.setAttribute('href', repo.html_url);
+            linkElement.setAttribute('target', '_blank');
             linkElement.appendChild(document.createTextNode('Acessar'));
 
             let listItemElement = document.createElement('li');
@@ -50,7 +74,7 @@ class App {
             this.listElement.appendChild(listItemElement);
         });
 
-    }    
+    }
 }
 
 new App();
