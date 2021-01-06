@@ -21,6 +21,6 @@
   "dependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.10.3",
     "@babel/plugin-transform-async-to-generator": "^7.10.1",
-    "axios": "^0.19.2"
+    "axios": "^0.21.1"
   }
 }
